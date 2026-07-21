@@ -55,31 +55,25 @@ app.use('*', (req, res) => {
 // ── Global error handler ───────────────────────────────────────
 app.use(errorHandler);
 
-// ── Start server ───────────────────────────────────────────────
-const PORT = process.env.PORT || 5000;
-const server = app.listen(PORT, () => {
-  console.log(`\n🚀  DailyTask API running on http://localhost:${PORT}`);
-  console.log(`📡  Environment : ${process.env.NODE_ENV}`);
-  console.log(`🌐  CORS origin : ${process.env.CORS_ORIGIN || 'http://localhost:3000'}`);
-  console.log('\n📋  Available endpoints:');
-  console.log(`    GET    /health`);
-  console.log(`    GET    /api/tasks`);
-  console.log(`    GET    /api/tasks/stats`);
-  console.log(`    GET    /api/tasks/:id`);
-  console.log(`    POST   /api/tasks`);
-  console.log(`    PUT    /api/tasks/:id`);
-  console.log(`    PATCH  /api/tasks/:id/toggle`);
-  console.log(`    DELETE /api/tasks/:id`);
-  console.log(`    DELETE /api/tasks  (bulk, body: { ids: [...] })\n`);
-});
+// ── Start server (Local only) ──────────────────────────────────
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 5000;
+  const server = app.listen(PORT, () => {
+    console.log(`\n🚀  DailyTask API running on http://localhost:${PORT}`);
+    console.log(`📡  Environment : ${process.env.NODE_ENV}`);
+    console.log(`🌐  CORS origin : ${process.env.CORS_ORIGIN || 'http://localhost:3000'}`);
+  });
 
-// ── Graceful shutdown ──────────────────────────────────────────
-process.on('unhandledRejection', (err) => {
-  console.error('Unhandled Promise Rejection:', err.message);
-  server.close(() => process.exit(1));
-});
+  process.on('unhandledRejection', (err) => {
+    console.error('Unhandled Promise Rejection:', err.message);
+    server.close(() => process.exit(1));
+  });
 
-process.on('SIGTERM', () => {
-  console.log('SIGTERM received – shutting down gracefully');
-  server.close(() => process.exit(0));
-});
+  process.on('SIGTERM', () => {
+    console.log('SIGTERM received – shutting down gracefully');
+    server.close(() => process.exit(0));
+  });
+}
+
+// Export for Vercel Serverless Functions
+module.exports = app;
