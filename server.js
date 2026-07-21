@@ -7,11 +7,18 @@ const connectDB    = require('./src/config/db');
 const taskRoutes   = require('./src/routes/tasks');
 const errorHandler = require('./src/middleware/errorHandler');
 
-// ── Connect to MongoDB ─────────────────────────────────────────
-connectDB();
-
 // ── Create Express app ─────────────────────────────────────────
 const app = express();
+
+// ── Ensure MongoDB is connected for every request ──────────────
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
 
 // ── Security & middleware ──────────────────────────────────────
 app.use(helmet());

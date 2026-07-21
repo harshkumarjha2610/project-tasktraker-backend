@@ -1,14 +1,23 @@
 const mongoose = require('mongoose');
 
 const connectDB = async () => {
+  if (mongoose.connection.readyState >= 1) {
+    return;
+  }
+
+  if (!process.env.MONGODB_URI) {
+    console.error('❌  MONGODB_URI environment variable is missing.');
+    throw new Error('MONGODB_URI environment variable is missing.');
+  }
+
   try {
     const conn = await mongoose.connect(process.env.MONGODB_URI, {
-      // Mongoose 7+ options are already set by default
+      serverSelectionTimeoutMS: 5000,
     });
     console.log(`✅  MongoDB connected: ${conn.connection.host}`);
   } catch (err) {
     console.error(`❌  MongoDB connection error: ${err.message}`);
-    // process.exit(1); // Do not exit in serverless environments
+    throw err;
   }
 };
 
