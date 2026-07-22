@@ -81,10 +81,11 @@ const getStats = async (req, res, next) => {
     const categoryMap = toMap(byCategory);
     const total       = Object.values(statusMap).reduce((s, v) => s + v, 0);
 
-    // Timing metrics for done tasks with due dates
     let completedOnTime = 0;
     let completedBeforeTime = 0;
     let completedAfterTime = 0;
+    let totalTimeSaved = 0;
+    let totalTimeWasted = 0;
 
     // Day-wise completion for last 7 days (IST)
     const dayWiseMap = {};
@@ -111,6 +112,12 @@ const getStats = async (req, res, next) => {
         // Calculate the difference in hours
         const timeDiffHours = (dueDate.getTime() - compDate.getTime()) / (1000 * 60 * 60);
         
+        if (timeDiffHours > 0) {
+          totalTimeSaved += timeDiffHours;
+        } else if (timeDiffHours < 0) {
+          totalTimeWasted += Math.abs(timeDiffHours);
+        }
+
         if (timeDiffHours >= 4) {
           completedBeforeTime++;
         } else if (timeDiffHours < 0) {
@@ -142,6 +149,8 @@ const getStats = async (req, res, next) => {
         completedOnTime,
         completedBeforeTime,
         completedAfterTime,
+        totalTimeSaved: Math.round(totalTimeSaved * 10) / 10, // Round to 1 decimal
+        totalTimeWasted: Math.round(totalTimeWasted * 10) / 10,
         deletedWithoutCompletion: deletedIncompleteCount,
         dayWise: Object.values(dayWiseMap)
       },

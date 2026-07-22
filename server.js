@@ -5,6 +5,7 @@ const morgan       = require('morgan');
 const helmet       = require('helmet');
 const connectDB    = require('./src/config/db');
 const taskRoutes   = require('./src/routes/tasks');
+const noteRoutes   = require('./src/routes/noteRoutes');
 const errorHandler = require('./src/middleware/errorHandler');
 
 // ── Create Express app ─────────────────────────────────────────
@@ -53,6 +54,7 @@ app.get('/health', (req, res) => {
 
 // ── API routes ─────────────────────────────────────────────────
 app.use('/api/tasks', taskRoutes);
+app.use('/api/notes', noteRoutes);
 
 // ── 404 handler ────────────────────────────────────────────────
 app.use('*', (req, res) => {
