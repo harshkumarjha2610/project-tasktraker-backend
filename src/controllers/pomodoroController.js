@@ -173,11 +173,13 @@ exports.updateActiveTimer = async (req, res, next) => {
     const store = await getOrCreatePomodoroStore();
 
     if (activeTimer) {
+      const currentActive = store.activeTimer ? store.activeTimer.toObject() : {};
       store.activeTimer = {
-        ...store.activeTimer.toObject(),
+        ...currentActive,
         ...activeTimer,
         updatedAt: Date.now(),
       };
+      store.markModified('activeTimer');
       await store.save();
     }
 
