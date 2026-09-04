@@ -44,6 +44,10 @@ const pomodoroSchema = new mongoose.Schema({
     targetEndTimestamp: { type: Number, default: null },
     timeLeft: { type: Number, default: 1500 },
     selectedTaskId: { type: String, default: '' },
+    isInterrupted: { type: Boolean, default: false },
+    wastedSeconds: { type: Number, default: 0 },
+    interruptedStartedAt: { type: Number, default: null },
+    overdueBreakMode: { type: String, default: null },
     updatedAt: { type: Number, default: () => Date.now() },
   },
   standaloneWasteState: {
