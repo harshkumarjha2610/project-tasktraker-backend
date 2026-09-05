@@ -49,6 +49,16 @@ const taskSchema = new mongoose.Schema(
       min: [1, 'Estimated minutes must be at least 1'],
       default: null,
     },
+    actualMinutes: {
+      type: Number,
+      min: [0, 'Actual minutes cannot be negative'],
+      default: 0,
+    },
+    pomodorosCompleted: {
+      type: Number,
+      min: [0, 'Pomodoros completed cannot be negative'],
+      default: 0,
+    },
     isDeleted: {
       type: Boolean,
       default: false,
