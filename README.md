@@ -38,7 +38,7 @@ CORS_ORIGIN=http://localhost:3000
 ```
 ?status=todo|inprogress|done
 ?priority=high|medium|low
-?category=work|personal|health|learning|other
+?category=work|company project|personal|health|learning|other
 ?search=keyword
 ?sort=-createdAt (default)
 ?page=1&limit=50
@@ -52,7 +52,7 @@ CORS_ORIGIN=http://localhost:3000
   description:       String (optional, max 1000)
   priority:          'high' | 'medium' | 'low'   (default: 'medium')
   status:            'todo' | 'inprogress' | 'done' (default: 'todo')
-  category:          'work' | 'personal' | 'health' | 'learning' | 'other'
+  category:          'work' | 'company project' | 'personal' | 'health' | 'learning' | 'other'
   dueDate:           Date (optional)
   completedAt:       Date (auto-set when status → 'done')
   tags:              [String]

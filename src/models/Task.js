@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const PRIORITY_ENUM   = ['super high', 'high', 'medium', 'low'];
 const STATUS_ENUM     = ['todo', 'inprogress', 'done'];
-const CATEGORY_ENUM   = ['work', 'personal', 'health', 'learning', 'other'];
+const CATEGORY_ENUM   = ['work', 'company project', 'personal', 'health', 'learning', 'other'];
 
 const taskSchema = new mongoose.Schema(
   {
