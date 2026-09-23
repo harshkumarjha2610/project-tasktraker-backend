@@ -10,6 +10,7 @@ const pomodoroRoutes = require('./src/routes/pomodoroRoutes');
 const englishPracticeRoutes = require('./src/routes/englishPracticeRoutes');
 const clientApproachRoutes = require('./src/routes/clientApproachRoutes');
 const jobTrackerRoutes = require('./src/routes/jobTrackerRoutes');
+const streakRoutes = require('./src/routes/streakRoutes');
 const errorHandler = require('./src/middleware/errorHandler');
 
 // ── Create Express app ─────────────────────────────────────────
@@ -63,6 +64,7 @@ app.use('/api/pomodoro', pomodoroRoutes);
 app.use('/api/english-practice', englishPracticeRoutes);
 app.use('/api/client-approaches', clientApproachRoutes);
 app.use('/api/jobs', jobTrackerRoutes);
+app.use('/api/streak', streakRoutes);
 
 // ── 404 handler ────────────────────────────────────────────────
 app.use('*', (req, res) => {
