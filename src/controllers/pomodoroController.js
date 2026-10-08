@@ -28,7 +28,10 @@ exports.updatePomodoroSettings = async (req, res, next) => {
     const { settings, colorTheme, bgStyle } = req.body;
     const store = await getOrCreatePomodoroStore();
 
-    if (settings) store.settings = { ...store.settings.toObject(), ...settings };
+    if (settings) {
+      store.settings = { ...store.settings.toObject(), ...settings };
+      store.markModified('settings');
+    }
     if (colorTheme) store.colorTheme = colorTheme;
     if (bgStyle) store.bgStyle = bgStyle;
 
@@ -99,7 +102,10 @@ exports.syncPomodoroData = async (req, res, next) => {
     const { settings, colorTheme, bgStyle, history, wasteHistory } = req.body;
     const store = await getOrCreatePomodoroStore();
 
-    if (settings) store.settings = { ...store.settings.toObject(), ...settings };
+    if (settings) {
+      store.settings = { ...store.settings.toObject(), ...settings };
+      store.markModified('settings');
+    }
     if (colorTheme) store.colorTheme = colorTheme;
     if (bgStyle) store.bgStyle = bgStyle;
 
